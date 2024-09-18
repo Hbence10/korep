@@ -1,0 +1,19 @@
+img{
+    height: 340px;
+    width: 270px !important;
+    margin: auto;
+}
+
+.card{
+    border: 1px solid dark;
+    height: 730px;
+}
+
+.paragraphDiv{
+    max-height: 125px;
+    overflow-y: auto;
+}
+
+.paragraphDiv::-webkit-scrollbar{
+    display: none;
+}
