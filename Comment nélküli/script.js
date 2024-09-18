@@ -1,44 +1,39 @@
-async function getAllProducts() {
-    try {
-        const urlList = [] //A promise-okat tartalmazo lista
-        const apiData = [] //A kivant objecteket tartalmazo lista
-        for(let i = 1; i<= 20; i++){
-            urlList.push(fetch(`https://fakestoreapi.com/products/${i}`) )
-        }
+/* API Lekeresnek a menete: 
+    1. async tipusu fugvenyt (async fugveny: Promise-t returnol)
+    2. fetch() method alkalmazasa --> a fetchet lementjuk egy kulon valtozoba, a fetch ele await-ot --> addig nem fog tovabb menni mig meg nem kapja a kivant adatokat
+    3. a lefetchelt valtozot "atvaltjuk" json tipussa
+*/
 
-        const apiCall = await Promise.all(urlList)
-        for(let i = 0; i< 20; i++){
-            apiData.push(await apiCall[i].json())
-        }
+async function apiCall(){
+    let apiCall = await fetch('https://fakestoreapi.com/products') //A Promise tipusu valtozo
+    let apiData = await apiCall.json(); //A lekert object json (Javascript Object Notation) --> object = kulcs ertek paron alapulo tipus. FONTOS az object nem primitive.
 
-        document.getElementById("mainContainer").style.display = ""
-        
-        writeDetails(apiData)
+    console.log(apiData)
+    writeDetails(apiData)
 
-    } catch (error) {
-        console.log("ajjaj")
-    }
-}
+    return apiData
+};
 
-function writeDetails(response){
-    let counter = 0;
-    for(let j = 0; j < response.length; j+=3){
-        let row = document.createElement("div")
-        row.classList.add("row", "my-4")
-        const rowItems = response.slice(j, j+3)
-        rowItems.forEach(element => {
+// Informacio kiirasa:
+function writeDetails(response){ //response = a fogadott adattal
+    for(let i = 0; i <= response.length; i+=3){
+        const row = document.createElement("div"); //HTML element letrehozasa, a zarojelben mindig a kivant tag-nek a nevet irjuk
+        row.classList.add("row", "my-2") //classlist.add --> az adott elementre osztaly adasa, ha tobb ossztaly van akkor a kulon osztalyokat ""-ba irjuk es ,-vel valasztjuk el
+        const eachRow = response.slice(i, i+3) //visszaadja az adott listanak az x es y index kozotti elemeket. FONTOS! ha pl 0. es 4. elem kozotti elemeket szeretnenk kikerni akkor a 4. elem nincs benne
+        eachRow.forEach(element => { //element = a lista adott eleme azaz object
+            // ` = template literal -->  annak ellenere, hogy string tudunk bele valtozot irni --> ${valtozoNev}
+            // innertHTML = A HTML-be irja bele a kivant dolgot
             row.innerHTML += `
-                <div class="col-lg-4">
+                        <div class="col-lg-4">
                             <div class="card">
                                 <img src="${element.image}" class="card-img-top my-4" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">${element.title}</h5>
-                                    <h6></h6>
+                                    <h5 class="card-title">${element.title}</h5> 
                                     <div class="paragraphDiv">
                                         <p class="card-text mt-4">${element.description}</p>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <h5>Category: ${element.category} </h5>
+                                        <h5>Category:  ${element.category}</h5>
                                         <h3 class="text-end my-4">${element.price} $</h3>
                                     </div>
 
@@ -47,18 +42,15 @@ function writeDetails(response){
                                     </div>
                                 </div>
                             </div>
-                        </div>
-            `
+                        </div>`
+            
         });
-        
         document.getElementById("mainContainer").appendChild(row)
+
     }
-}
+};
 
-document.addEventListener("DOMContentLoaded", () => {
-    getAllProducts()
-})
-
+apiCall() //meghivjuk a fugvenyt az oldal betoltesekor
 
 /* 
 HATTER ISMERET
@@ -75,8 +67,7 @@ HATTER ISMERET
         Promise: Lenyegeben objectek, amik testesitik az adott event vegrehajtasat (siker/kudarc). Ezzel jobb lekezelhetoseget ad az asyncronikus kodnak
         async function: Promies-t returnolo function 
         await: Csak async fugvenyben lehet hasznalni. Promise tipusu adatok elle rakjuk. Szerepe az, hogy addig nem megy tovabb a kodban amig meg nem kapja a kivant adatot, azaz teljesul maga a promise
-        fetch: HTTP (Hyper Text Transfer Protocol) keresekhez szokas hasznalni. A fetchelni kivant adat asyncronikus adatkent ternek vissza. Ez is egy mod hogy adatot szerezzunk/kuldjunk weben keresztul.
-        Promise.all(): Egyetlen egy promise-t returnol egy promise-okkal teli listabol amikor az osszes promise beteljesult. 
+        fetch: HTTP (Hyper Text Transfer Protocol) keresekhez szokas hasznalni. A fetchelni kivant adat asyncronikus adatkent ternek vissza
 */
 
 // API DOCS: https://fakestoreapi.com/docs

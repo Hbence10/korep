@@ -68,7 +68,8 @@ HATTER ISMERET
         Promise: Lenyegeben objectek, amik testesitik az adott event vegrehajtasat (siker/kudarc). Ezzel jobb lekezelhetoseget ad az asyncronikus kodnak
         async function: Promies-t returnolo function 
         await: Csak async fugvenyben lehet hasznalni. Promise tipusu adatok elle rakjuk. Szerepe az, hogy addig nem megy tovabb a kodban amig meg nem kapja a kivant adatot, azaz teljesul maga a promise
-        fetch: HTTP (Hyper Text Transfer Protocol) keresekhez szokas hasznalni. A fetchelni kivant adat asyncronikus adatkent ternek vissza
+        fetch: HTTP (Hyper Text Transfer Protocol) keresekhez szokas hasznalni. A fetchelni kivant adat asyncronikus adatkent ternek vissza. Alapertelmezetten GET methodod hasznal.
+                PUT, GET(Mindig csak leker) , POST, DELETE
 */
 
 // API DOCS: https://fakestoreapi.com/docs
